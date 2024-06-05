@@ -1,0 +1,1012 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.23
+-- Dumped by pg_dump version 10.23
+
+-- Started on 2024-06-05 15:25:31
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12924)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2854 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 205 (class 1259 OID 16468)
+-- Name: journey; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.journey (
+    id integer NOT NULL,
+    id_passenger integer NOT NULL,
+    id_trajectory integer NOT NULL,
+    start timestamp with time zone,
+    final timestamp with time zone
+);
+
+
+ALTER TABLE public.journey OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 16466)
+-- Name: journey_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.journey_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.journey_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2856 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: journey_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.journey_id_seq OWNED BY public.journey.id;
+
+
+--
+-- TOC entry 197 (class 1259 OID 16422)
+-- Name: passenger; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.passenger (
+    id integer NOT NULL,
+    name character varying(100),
+    "Residence Adress" character varying,
+    birthdate date
+);
+
+
+ALTER TABLE public.passenger OWNER TO postgres;
+
+--
+-- TOC entry 196 (class 1259 OID 16420)
+-- Name: pasajero_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.pasajero_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pasajero_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2858 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: pasajero_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.pasajero_id_seq OWNED BY public.passenger.id;
+
+
+--
+-- TOC entry 199 (class 1259 OID 16441)
+-- Name: train; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.train (
+    id integer NOT NULL,
+    model character varying(40),
+    " ability" integer
+);
+
+
+ALTER TABLE public.train OWNER TO postgres;
+
+--
+-- TOC entry 201 (class 1259 OID 16449)
+-- Name: train station; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."train station" (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    address character varying
+);
+
+
+ALTER TABLE public."train station" OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1259 OID 16447)
+-- Name: train station_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."train station_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."train station_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 2861 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: train station_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."train station_id_seq" OWNED BY public."train station".id;
+
+
+--
+-- TOC entry 198 (class 1259 OID 16439)
+-- Name: train_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.train_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.train_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2862 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: train_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.train_id_seq OWNED BY public.train.id;
+
+
+--
+-- TOC entry 203 (class 1259 OID 16460)
+-- Name: trajectory; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.trajectory (
+    id integer NOT NULL,
+    id_train integer NOT NULL,
+    id_station integer NOT NULL,
+    name character varying
+);
+
+
+ALTER TABLE public.trajectory OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 16458)
+-- Name: trajectory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.trajectory_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.trajectory_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2864 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: trajectory_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.trajectory_id_seq OWNED BY public.trajectory.id;
+
+
+--
+-- TOC entry 2701 (class 2604 OID 16471)
+-- Name: journey id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.journey ALTER COLUMN id SET DEFAULT nextval('public.journey_id_seq'::regclass);
+
+
+--
+-- TOC entry 2697 (class 2604 OID 16425)
+-- Name: passenger id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.passenger ALTER COLUMN id SET DEFAULT nextval('public.pasajero_id_seq'::regclass);
+
+
+--
+-- TOC entry 2698 (class 2604 OID 16444)
+-- Name: train id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.train ALTER COLUMN id SET DEFAULT nextval('public.train_id_seq'::regclass);
+
+
+--
+-- TOC entry 2699 (class 2604 OID 16452)
+-- Name: train station id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."train station" ALTER COLUMN id SET DEFAULT nextval('public."train station_id_seq"'::regclass);
+
+
+--
+-- TOC entry 2700 (class 2604 OID 16463)
+-- Name: trajectory id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.trajectory ALTER COLUMN id SET DEFAULT nextval('public.trajectory_id_seq'::regclass);
+
+
+--
+-- TOC entry 2846 (class 0 OID 16468)
+-- Dependencies: 205
+-- Data for Name: journey; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.journey (id, id_passenger, id_trajectory, start, final) FROM stdin;
+40	57	14	2023-04-24 23:16:33-06	2023-01-02 01:29:06-06
+41	89	11	2023-12-18 09:43:25-06	2023-01-03 22:57:42-06
+42	54	57	2023-05-22 03:30:11-06	2023-09-24 08:46:28-06
+43	93	69	2023-05-08 05:40:35-06	2023-07-08 01:01:04-06
+44	14	60	2023-11-28 05:02:45-06	2023-07-31 12:52:38-06
+45	58	3	2023-07-26 02:27:07-06	2023-02-27 12:09:50-06
+46	9	9	2023-11-14 06:06:49-06	2023-07-12 08:23:03-06
+47	96	9	2023-01-31 05:41:11-06	2023-04-04 13:22:53-06
+48	86	94	2023-08-24 23:24:11-06	2023-03-06 02:33:29-06
+49	65	34	2023-06-04 12:00:09-06	2023-03-04 08:02:18-06
+50	82	61	2023-05-26 11:39:39-06	2023-08-21 02:08:27-06
+51	53	93	2023-08-21 23:41:27-06	2023-08-02 19:53:19-06
+52	25	68	2023-09-24 21:30:07-06	2023-03-12 10:47:11-06
+53	78	10	2023-04-07 18:41:50-06	2023-04-05 21:51:10-06
+54	101	54	2023-06-18 16:24:47-06	2023-10-04 21:47:30-06
+55	88	28	2023-05-13 19:37:14-06	2023-06-04 07:59:36-06
+56	5	76	2023-10-22 13:03:10-06	2023-01-12 16:13:37-06
+57	94	66	2023-03-20 02:14:30-06	2023-02-18 21:30:04-06
+58	22	90	2023-01-22 20:56:13-06	2023-09-30 23:38:19-06
+59	47	39	2023-09-18 00:51:57-06	2023-10-05 06:24:43-06
+60	12	67	2023-04-05 04:46:10-06	2023-07-26 15:24:18-06
+61	74	64	2023-08-23 12:17:04-06	2023-05-02 08:51:33-06
+62	45	25	2023-02-12 22:30:23-06	2023-07-04 04:47:02-06
+63	47	98	2023-11-25 01:05:16-06	2023-06-19 01:16:07-06
+64	62	37	2023-12-08 02:25:15-06	2023-11-15 14:49:04-06
+65	26	64	2023-01-08 05:41:59-06	2023-04-19 18:36:04-06
+66	94	38	2023-12-17 21:10:51-06	2023-09-11 14:20:27-06
+67	78	11	2023-12-15 01:00:12-06	2023-01-16 04:13:46-06
+68	23	54	2023-02-19 15:18:18-06	2023-08-13 17:44:47-06
+69	83	48	2023-10-08 03:50:55-06	2023-04-09 16:26:13-06
+70	23	87	2023-11-16 01:19:32-06	2023-10-16 22:08:10-06
+71	71	12	2023-08-15 05:19:28-06	2023-04-28 02:45:34-06
+72	85	29	2023-05-20 19:22:02-06	2023-12-14 23:22:06-06
+73	69	81	2023-01-10 11:37:06-06	2023-07-07 04:56:12-06
+74	10	36	2023-01-19 02:20:10-06	2023-01-25 22:20:39-06
+75	44	47	2023-10-02 11:53:38-06	2023-06-15 07:42:27-06
+76	54	100	2023-02-02 02:46:28-06	2023-07-06 01:38:38-06
+77	82	99	2023-05-09 17:07:18-06	2023-07-15 00:40:32-06
+78	57	75	2023-04-30 00:20:00-06	2023-05-25 15:10:36-06
+79	37	96	2023-04-11 06:50:29-06	2023-07-31 03:07:38-06
+80	78	26	2023-11-12 17:26:18-06	2023-03-15 13:42:19-06
+81	77	76	2023-04-02 21:56:32-06	2023-05-27 16:12:42-06
+82	14	87	2023-12-09 21:06:00-06	2023-11-25 08:17:05-06
+83	49	65	2023-12-02 12:18:44-06	2023-11-05 06:25:18-06
+84	85	8	2023-11-17 10:06:04-06	2023-05-23 00:54:44-06
+85	94	6	2023-11-05 08:27:07-06	2023-06-30 04:42:19-06
+86	65	22	2023-10-05 13:04:58-06	2023-05-13 23:46:33-06
+87	83	101	2023-12-08 23:26:32-06	2023-05-16 22:41:20-06
+88	55	35	2023-04-12 03:01:21-06	2023-04-30 21:32:13-06
+89	79	56	2023-04-21 18:57:20-06	2023-08-25 09:20:33-06
+90	84	101	2023-01-13 21:44:36-06	2023-12-15 17:26:41-06
+91	89	82	2023-10-15 01:43:57-06	2023-08-23 14:44:41-06
+92	27	8	2023-10-21 19:54:57-06	2023-11-09 18:55:49-06
+93	16	85	2023-01-03 12:44:05-06	2023-02-15 14:05:53-06
+94	59	87	2023-08-18 04:28:52-06	2023-02-07 11:50:17-06
+95	42	62	2023-02-03 06:40:37-06	2023-02-23 08:41:40-06
+96	1	79	2023-06-19 23:09:53-06	2023-12-28 20:49:00-06
+97	44	95	2023-01-26 20:54:28-06	2023-05-31 18:01:11-06
+98	7	61	2023-11-07 02:30:59-06	2023-02-21 20:37:25-06
+99	81	30	2023-12-21 23:22:50-06	2023-01-16 17:58:00-06
+100	23	4	2023-04-29 16:06:34-06	2023-08-10 15:48:29-06
+101	63	70	2023-02-23 08:38:10-06	2023-03-28 17:11:57-06
+102	8	26	2023-11-03 13:40:01-06	2023-03-24 13:43:56-06
+103	24	93	2023-11-05 14:09:46-06	2023-11-12 09:05:21-06
+104	55	98	2023-01-02 09:59:13-06	2023-02-13 21:31:55-06
+105	14	71	2023-05-22 15:26:34-06	2023-04-26 09:34:53-06
+106	2	31	2023-10-11 03:33:47-06	2023-03-16 13:51:27-06
+107	72	87	2023-07-08 05:29:38-06	2023-02-10 03:39:52-06
+108	58	96	2023-07-26 07:31:19-06	2023-05-15 13:56:20-06
+109	91	88	2023-08-01 04:27:02-06	2023-12-29 23:39:14-06
+110	58	36	2023-06-19 06:29:13-06	2023-03-21 11:57:21-06
+111	30	20	2023-03-09 00:58:55-06	2023-04-06 09:14:48-06
+112	76	87	2023-03-14 22:29:21-06	2023-10-08 07:38:15-06
+113	92	21	2023-08-09 18:45:29-06	2023-02-21 03:10:04-06
+114	71	11	2023-02-14 04:17:44-06	2023-07-07 14:03:18-06
+115	41	12	2023-04-18 07:00:35-06	2023-10-12 08:26:35-06
+116	69	46	2023-10-18 08:20:32-06	2023-09-17 19:48:14-06
+117	4	64	2023-06-05 07:42:54-06	2023-04-21 23:56:34-06
+118	18	54	2023-08-08 07:42:58-06	2023-06-01 06:57:09-06
+119	2	58	2023-06-10 21:15:46-06	2023-03-15 11:00:55-06
+120	12	69	2023-08-07 20:00:19-06	2023-06-17 05:17:49-06
+121	45	62	2023-06-20 12:37:02-06	2023-12-15 04:57:38-06
+122	37	62	2023-04-29 03:55:00-06	2023-06-13 10:07:33-06
+123	80	12	2023-10-26 17:35:15-06	2023-12-23 21:45:52-06
+124	98	11	2023-04-14 19:55:27-06	2023-04-05 12:42:02-06
+125	78	10	2023-02-10 21:48:42-06	2023-06-04 14:35:38-06
+126	25	47	2023-10-02 20:16:58-06	2023-09-27 23:38:07-06
+127	39	37	2023-05-09 04:44:27-06	2023-10-11 03:05:03-06
+128	5	94	2023-02-12 23:11:34-06	2023-06-11 10:16:05-06
+129	19	34	2023-08-24 20:08:59-06	2023-07-28 22:10:50-06
+130	80	61	2023-03-18 23:33:00-06	2023-01-31 15:36:26-06
+131	54	87	2023-07-02 12:50:00-06	2023-07-11 20:33:56-06
+132	87	73	2023-02-27 20:09:27-06	2023-04-11 05:33:15-06
+133	1	31	2023-05-17 23:33:11-06	2023-12-18 01:01:41-06
+134	41	89	2023-04-20 13:09:51-06	2023-07-06 20:40:41-06
+135	13	70	2023-04-22 10:18:49-06	2023-08-08 22:29:32-06
+136	41	13	2023-05-21 05:23:39-06	2023-01-26 20:35:34-06
+137	32	85	2023-05-31 19:35:28-06	2023-08-18 09:21:29-06
+138	23	61	2023-11-26 07:24:29-06	2023-10-04 07:52:00-06
+139	65	40	2023-06-10 02:11:25-06	2023-07-28 13:07:23-06
+\.
+
+
+--
+-- TOC entry 2838 (class 0 OID 16422)
+-- Dependencies: 197
+-- Data for Name: passenger; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.passenger (id, name, "Residence Adress", birthdate) FROM stdin;
+1	paco diaz	Xalapa	1997-03-19
+2	Jo-anne Mateuszczyk	Maple Wood	2023-05-31
+3	Keefe Featherstonehaugh	Claremont	2015-07-08
+4	Rodd Feaver	Quincy	1966-11-19
+5	Ferdinande Rivelin	Hazelcrest	1960-09-12
+6	Vonni Kubera	Schiller	1977-07-03
+7	Lyle Stinchcombe	Glacier Hill	1996-06-07
+8	Chrisse Clulee	Holy Cross	1956-10-31
+9	Philomena Slayford	Sullivan	1978-08-18
+10	Ian Jansik	Brickson Park	1989-08-07
+11	Pattie Philippet	Division	2020-12-18
+12	Carlina Hewlings	Texas	1987-01-23
+13	Demetrius Bougen	Killdeer	1958-04-25
+14	Hervey Touson	Briar Crest	2023-02-25
+15	Guillermo Kitchener	Butternut	1963-12-25
+16	Gail Obin	Bashford	1971-09-12
+17	Astrix Delamere	Hooker	1961-04-17
+18	Meredeth Gawler	David	2003-08-25
+19	Alida Yapp	Delaware	1981-12-29
+20	Linnet Duffyn	Nobel	1961-02-24
+21	Addia Swateridge	Mosinee	1970-07-27
+22	Bondie Jacobssen	Algoma	2013-01-23
+23	Hayley Scoffins	Brown	1979-12-18
+24	Frannie Henker	Chive	1996-06-25
+25	Bambi MacGiolla	Claremont	2013-07-10
+26	Deck McGahey	Melby	2005-05-12
+27	Murry Di Meo	Fisk	1998-08-13
+28	Padgett Nardi	Johnson	1954-06-09
+29	Patrizia Robbe	Pawling	1972-04-06
+30	Patton Harvison	Grover	1996-09-15
+31	Valentine Jone	Pawling	1957-07-09
+32	Millicent Scarce	Tennyson	2010-11-09
+33	Calley Dundridge	Village	1991-03-02
+34	Henrietta Deabill	Kensington	1960-09-10
+35	Tallia Van Saltsberg	Schlimgen	1983-09-19
+36	Eric Goodbur	Declaration	1985-05-12
+37	Ameline Behneke	Sachs	2017-05-14
+38	Glenine Cometson	Judy	2003-01-17
+39	Rivy Squibbs	Laurel	1973-09-10
+40	Lida Mirralls	Truax	1997-10-21
+41	Helenelizabeth Goudge	Waxwing	1978-02-19
+42	Matthiew Roxby	Holmberg	1981-12-14
+43	Cal Gergus	Laurel	1965-12-30
+44	Banky Konmann	Sutherland	2019-02-25
+45	Evita Mocher	Monument	1960-09-29
+46	Eberto Pudge	Monument	1975-07-31
+47	Whitaker Sheere	3rd	2005-03-13
+48	Bonni Kowalski	Londonderry	1980-05-10
+49	Neddy Queyos	Sachs	1970-03-04
+50	Jessalyn Ranby	Glacier Hill	1993-10-27
+51	Lonnie Gerriets	Sullivan	2001-08-23
+52	Jane Firmage	Paget	1959-10-12
+53	Rozelle Jobbins	5th	1986-04-24
+54	Ermengarde Prewett	Eagan	1964-06-23
+55	Sonya Oppy	Charing Cross	1967-10-24
+56	Hollis Fitzsymonds	Holy Cross	1972-09-17
+57	Kennie Norcliff	Moland	1987-11-04
+58	Jodee Ramalho	Park Meadow	1968-10-12
+59	Florrie Wanklyn	Erie	1980-10-05
+60	Dynah Cregin	Clyde Gallagher	1972-05-31
+61	Zita Chase	Orin	1969-01-09
+62	Fremont Daldry	Bobwhite	1977-12-23
+63	Constantine MacKain	Jenifer	1958-09-14
+64	Nerte Khadir	Atwood	1959-08-07
+65	Lissa Knutsen	Buell	1969-07-20
+66	Fletcher Lumbley	Tomscot	1953-04-01
+67	Ramsay Bruun	Tomscot	1996-08-20
+68	Pammy Lies	Drewry	1973-07-14
+69	Leann Thoresby	Redwing	1961-09-14
+70	Artemis Gurr	Pleasure	1963-05-16
+71	Skyler Boddam	Homewood	2008-06-08
+72	Rosalia Horrod	Sunfield	1964-07-07
+73	Sileas Hackin	Springview	2019-12-09
+74	Lurleen Florez	Eggendart	1952-03-15
+75	Garreth McJerrow	Dovetail	2023-09-27
+76	Jeni Double	Stephen	1982-12-01
+77	Abagail Schoenleiter	Hagan	2004-05-09
+78	Liesa Safe	Fieldstone	1991-05-06
+79	Belva Boog	Dennis	2004-04-01
+80	Loleta Hallawell	International	2003-08-02
+81	Milli Boyd	Golf View	2022-01-12
+82	Buiron Tanser	Mosinee	1954-11-11
+83	Grover Le Port	Ilene	2004-05-01
+84	Falito Delos	Harbort	1973-12-04
+85	Kailey Ishaki	Melrose	2011-01-25
+86	Charleen Novichenko	Gale	1984-10-30
+87	Deloris Bagnal	Vermont	1982-08-14
+88	Haslett Mosedill	Mayfield	2014-07-20
+89	Maxie Hullins	Jay	1962-10-17
+90	Wilek Monnery	New Castle	2009-05-10
+91	Kalil Rawstron	Dennis	1983-07-13
+92	Margalit Drowsfield	Elgar	1983-04-13
+93	Lenore Ducket	Express	1988-08-02
+94	Mil Perrington	Schlimgen	2006-10-25
+95	Denny Goroni	Kennedy	1992-01-03
+96	Dev Harmer	Almo	1956-10-27
+97	Harley Lawson	Harper	1979-06-02
+98	Rudolph Choppen	Waxwing	2003-06-08
+99	Jeni Whodcoat	Merrick	1981-10-06
+100	Berna Connolly	Bonner	2014-12-10
+101	Waite Gerrad	Clarendon	2001-05-21
+\.
+
+
+--
+-- TOC entry 2840 (class 0 OID 16441)
+-- Dependencies: 199
+-- Data for Name: train; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.train (id, model, " ability") FROM stdin;
+1	honda 2000	200
+2	honda 3000	400
+3	Grand Prix	11
+4	SL-Class	35
+5	Safari	99
+6	Probe	85
+7	Ram 3500 Club	93
+8	1500	39
+9	ES	42
+10	Chariot	89
+11	Trans Sport	76
+12	Lumina	80
+13	Santa Fe	68
+14	Eldorado	77
+15	Cutlass Supreme	11
+16	8 Series	8
+17	Excursion	4
+18	Canyon	87
+19	SC	66
+20	LX	71
+21	H1	77
+22	Explorer	26
+23	Stratus	93
+24	1500	99
+25	SRX	34
+26	Q	39
+27	Sportvan G30	50
+28	Previa	76
+29	Suburban 1500	84
+30	Kizashi	96
+31	MKX	72
+32	911	38
+33	Fortwo	79
+34	Savana	83
+35	MX-6	49
+36	RL	98
+37	5 Series	70
+38	Familia	42
+39	Explorer	53
+40	E-Class	47
+41	MR2	30
+42	Laser	10
+43	940	70
+44	Taurus	99
+45	Ascender	66
+46	850	47
+47	Park Avenue	71
+48	900	31
+49	Mountaineer	68
+50	Sparrow	96
+51	Blazer	56
+52	C8 Spyder	27
+53	CR-Z	30
+54	500SEL	7
+55	Sonoma	84
+56	J	40
+57	TT	62
+58	Miata MX-5	1
+59	Yukon XL 1500	29
+60	Integra	96
+61	Accent	67
+62	Daewoo Lacetti	20
+63	XK	35
+64	Rio	29
+65	Corvette	100
+66	Pathfinder	60
+67	Rainier	86
+68	Prelude	82
+69	Jetta	8
+70	Galant	81
+71	Sierra 3500	86
+72	Cavalier	47
+73	Paseo	28
+74	V50	44
+75	Elantra	70
+76	Tiguan	23
+77	7 Series	42
+78	Impala	85
+79	Aspire	83
+80	7 Series	13
+81	Freelander	93
+82	Bravada	85
+83	Mazda3	20
+84	Sebring	63
+85	Century	55
+86	H3	51
+87	Suburban	77
+88	TSX	23
+89	Cavalier	56
+90	T100 Xtra	15
+91	RL	23
+92	Frontier	93
+93	Crown Victoria	55
+94	Accord	67
+95	V8	35
+96	Avalon	91
+97	A4	74
+98	Yukon	4
+99	G	44
+100	Windstar	89
+101	Aviator	61
+102	Tahoe	96
+\.
+
+
+--
+-- TOC entry 2842 (class 0 OID 16449)
+-- Dependencies: 201
+-- Data for Name: train station; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."train station" (id, name, address) FROM stdin;
+1	Centro	Clle centro 12
+2	Sur	Clle Sur 13
+3	Halvorson, Gerhold and Kunze	Hagan
+4	Stroman, Hermiston and Ratke	Coolidge
+5	Gorczany-Rodriguez	Grasskamp
+6	Collier-Becker	Loftsgordon
+7	Green, Pagac and Bogisich	Grasskamp
+8	Wilderman, Thiel and Mohr	Chive
+9	Carroll, Bashirian and Tromp	Lotheville
+10	Leannon LLC	Marquette
+11	Gleichner Inc	Walton
+12	Willms-Padberg	Troy
+13	Turcotte Group	Old Shore
+14	Swift-Leannon	Summit
+15	Heidenreich Group	Goodland
+16	Kovacek Group	Carey
+17	Kerluke LLC	Darwin
+18	Tillman and Sons	Helena
+19	Watsica-Hirthe	Park Meadow
+20	Mueller-Durgan	Moland
+21	Lehner-Goyette	Elka
+22	Schumm-McGlynn	Independence
+23	Rice, Glover and Oberbrunner	Becker
+24	Kilback Inc	Sundown
+25	Kirlin and Sons	Chinook
+26	Moen and Sons	Fisk
+27	Bartoletti and Sons	Arrowood
+28	Legros LLC	Paget
+29	Rosenbaum and Sons	La Follette
+30	Bogisich-Smith	Morningstar
+31	Emard Inc	Tennyson
+32	Collier-Mann	Butterfield
+33	Bechtelar Group	Carey
+34	Denesik-Olson	Thompson
+35	Cartwright Group	Arrowood
+36	Abshire LLC	Bobwhite
+37	Fritsch and Sons	Dryden
+38	McCullough Inc	Becker
+39	Raynor-Wunsch	Shasta
+40	Armstrong-Boehm	Golf
+41	Cole, Bernier and Casper	Quincy
+42	Klein and Sons	Briar Crest
+43	Johnson LLC	Red Cloud
+44	Hansen Group	Warbler
+45	Jacobson-Connelly	Muir
+46	Wyman, Lindgren and Daniel	Mayer
+47	Schmeler LLC	Briar Crest
+48	Luettgen-Rodriguez	Fisk
+49	Schiller, Towne and Volkman	Lunder
+50	Waelchi-Schultz	Saint Paul
+51	Jaskolski Inc	Brickson Park
+52	Blick, Mosciski and Green	7th
+53	Bogisich Group	East
+54	Wiza-Schaden	Packers
+55	White LLC	Cody
+56	Mraz-Stoltenberg	Porter
+57	Thiel-Upton	Westend
+58	Hills, Haag and Denesik	Meadow Ridge
+59	Douglas-Kling	Village
+60	Smitham-Larkin	Village
+61	Weissnat-Bauch	Mandrake
+62	Schmitt Group	Redwing
+63	O'Conner-Maggio	Loeprich
+64	Lebsack, Schaefer and Streich	Cambridge
+65	Lowe-Fadel	Hazelcrest
+66	Hansen-Nikolaus	Rowland
+67	Bogisich, Bahringer and Adams	Towne
+68	Stark and Sons	Kingsford
+69	Mills, Mitchell and Boyer	Oakridge
+70	Lockman, Schultz and Becker	Everett
+71	Pfannerstill-Orn	Basil
+72	Little, Feeney and Wehner	Dawn
+73	Vandervort-Powlowski	Oriole
+74	Langworth, Gleason and Haley	Union
+75	Gutmann, Blanda and Hilll	Sachtjen
+76	Haley, King and Dare	Mallard
+77	Dickens, Wilkinson and Kshlerin	Clyde Gallagher
+78	Considine Inc	Scofield
+79	Stehr Group	Eastwood
+80	Mann, Corwin and Prosacco	Northland
+81	Hudson and Sons	Menomonie
+82	Sanford Inc	Pleasure
+83	Wisoky-McCullough	Eggendart
+84	Rau, Quigley and Howe	2nd
+85	Jacobi-Barton	Sugar
+86	Schuppe-Hegmann	Summerview
+87	Gerhold, Larkin and Glover	Boyd
+88	Rodriguez, Ernser and Johnson	Montana
+89	Herzog-Stracke	Artisan
+90	Leannon and Sons	Logan
+91	Mann-Sawayn	Green Ridge
+92	Dach, Connelly and Runolfsson	Rowland
+93	Kautzer, Gerhold and Gleason	Lotheville
+94	McLaughlin-Kirlin	Lake View
+95	Runte Group	Macpherson
+96	Gusikowski Inc	Burrows
+97	Heidenreich, Zieme and Mayer	Moland
+98	Cummerata-Koch	Crest Line
+99	Stoltenberg Group	Loftsgordon
+100	Schaden, Yost and Schmitt	Pepper Wood
+101	Jacobi, Gorczany and Volkman	Kedzie
+102	Hegmann-Ondricka	East
+\.
+
+
+--
+-- TOC entry 2844 (class 0 OID 16460)
+-- Dependencies: 203
+-- Data for Name: trajectory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.trajectory (id, id_train, id_station, name) FROM stdin;
+2	48	93	Stringtough
+3	58	38	Stim
+4	2	94	Voyatouch
+5	69	59	Asoka
+6	9	23	Vagram
+7	35	20	Span
+8	7	48	Mat Lam Tam
+9	97	89	Voyatouch
+10	92	48	Ronstring
+11	79	39	Bitchip
+12	95	91	Overhold
+13	24	100	Fintone
+14	68	40	Redhold
+15	34	11	Voyatouch
+16	19	1	Domainer
+17	36	52	Alpha
+18	95	84	Tresom
+19	68	29	Sub-Ex
+20	80	96	Tempsoft
+21	70	31	Solarbreeze
+22	28	31	Cookley
+23	51	81	Solarbreeze
+24	19	88	Asoka
+25	6	39	Y-Solowarm
+26	50	55	Fintone
+27	16	24	Tempsoft
+28	38	87	Trippledex
+29	92	17	Biodex
+30	55	27	Lotlux
+31	66	56	It
+32	44	100	Mat Lam Tam
+33	20	65	Zaam-Dox
+34	59	9	Bitwolf
+35	67	30	Ronstring
+36	48	93	Pannier
+37	68	68	Tampflex
+38	33	7	Alpha
+39	29	45	Transcof
+40	42	14	Overhold
+41	6	66	Fix San
+42	102	48	Flowdesk
+43	30	41	Greenlam
+44	74	27	Duobam
+45	96	91	Tresom
+46	70	59	Veribet
+47	42	95	Prodder
+48	71	81	Zathin
+49	57	49	Overhold
+50	62	102	Overhold
+51	40	98	Tres-Zap
+52	89	46	Transcof
+53	95	34	Cookley
+54	99	38	Tampflex
+55	101	49	Mat Lam Tam
+56	48	78	Otcom
+57	41	39	Cardguard
+58	85	2	Bitwolf
+59	46	101	Toughjoyfax
+60	63	18	Y-Solowarm
+61	69	90	Zathin
+62	74	64	Toughjoyfax
+63	56	63	Tres-Zap
+64	73	44	Latlux
+65	98	54	Tres-Zap
+66	27	36	Asoka
+67	93	81	Ventosanzap
+68	18	52	Tres-Zap
+69	86	71	Tresom
+70	14	32	Flexidy
+71	73	64	Transcof
+72	92	43	Trippledex
+73	24	38	Tres-Zap
+74	59	55	Alphazap
+75	69	76	Asoka
+76	93	46	Stim
+77	27	72	Wrapsafe
+78	44	59	Vagram
+79	80	6	Pannier
+80	95	60	Y-Solowarm
+81	67	98	Temp
+82	71	4	Greenlam
+83	32	25	Fixflex
+84	56	3	Job
+85	17	51	Biodex
+86	23	73	Zathin
+87	95	81	Quo Lux
+88	84	80	Tin
+89	96	23	Daltfresh
+90	64	10	Voyatouch
+91	31	91	Tempsoft
+92	50	87	Prodder
+93	51	33	Andalax
+94	95	72	Viva
+95	23	54	Pannier
+96	87	58	It
+97	19	44	Regrant
+98	25	75	Solarbreeze
+99	39	85	Keylex
+100	78	75	Mat Lam Tam
+101	45	61	Opela
+\.
+
+
+--
+-- TOC entry 2865 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: journey_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.journey_id_seq', 139, true);
+
+
+--
+-- TOC entry 2866 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: pasajero_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.pasajero_id_seq', 101, true);
+
+
+--
+-- TOC entry 2867 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: train station_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."train station_id_seq"', 102, true);
+
+
+--
+-- TOC entry 2868 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: train_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.train_id_seq', 102, true);
+
+
+--
+-- TOC entry 2869 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: trajectory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.trajectory_id_seq', 101, true);
+
+
+--
+-- TOC entry 2711 (class 2606 OID 16473)
+-- Name: journey journey_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.journey
+    ADD CONSTRAINT journey_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2703 (class 2606 OID 16430)
+-- Name: passenger passenger_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.passenger
+    ADD CONSTRAINT passenger_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2707 (class 2606 OID 16457)
+-- Name: train station train station_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."train station"
+    ADD CONSTRAINT "train station_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2705 (class 2606 OID 16446)
+-- Name: train train_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.train
+    ADD CONSTRAINT train_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2709 (class 2606 OID 16465)
+-- Name: trajectory trajectory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.trajectory
+    ADD CONSTRAINT trajectory_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2715 (class 2606 OID 16507)
+-- Name: journey journey_passenger_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.journey
+    ADD CONSTRAINT journey_passenger_fkey FOREIGN KEY (id_passenger) REFERENCES public.passenger(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 2714 (class 2606 OID 16502)
+-- Name: journey journey_trajectory_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.journey
+    ADD CONSTRAINT journey_trajectory_fkey FOREIGN KEY (id_trajectory) REFERENCES public.trajectory(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 2712 (class 2606 OID 16492)
+-- Name: trajectory trajectoer_station_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.trajectory
+    ADD CONSTRAINT trajectoer_station_fkey FOREIGN KEY (id_station) REFERENCES public."train station"(id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+
+
+--
+-- TOC entry 2713 (class 2606 OID 16497)
+-- Name: trajectory trajectoer_train_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.trajectory
+    ADD CONSTRAINT trajectoer_train_fkey FOREIGN KEY (id_train) REFERENCES public.train(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2855 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: TABLE journey; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT,INSERT,UPDATE ON TABLE public.journey TO usario_consulta;
+
+
+--
+-- TOC entry 2857 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: TABLE passenger; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT,INSERT,UPDATE ON TABLE public.passenger TO usario_consulta;
+
+
+--
+-- TOC entry 2859 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: TABLE train; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT,INSERT,UPDATE ON TABLE public.train TO usario_consulta;
+
+
+--
+-- TOC entry 2860 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: TABLE "train station"; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT,INSERT,UPDATE ON TABLE public."train station" TO usario_consulta;
+
+
+--
+-- TOC entry 2863 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: TABLE trajectory; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT,INSERT,UPDATE ON TABLE public.trajectory TO usario_consulta;
+
+
+-- Completed on 2024-06-05 15:25:32
+
+--
+-- PostgreSQL database dump complete
+--
+
